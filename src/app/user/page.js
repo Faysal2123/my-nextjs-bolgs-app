@@ -1,15 +1,17 @@
 import Link from 'next/link';
-
-export const Home = () => {
-  
-
-  return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">Blog Posts</h1>
-      
-      
-    </div>
-  );
+import {getKindeServerSession} from "@kinde-oss/kinde-auth-nextjs/server";
+import {redirect} from "next/navigation";
+export const Home =async () => {
+   const {isAuthenticated} = getKindeServerSession();
+  console.log(isAuthenticated)
+    if ((await isAuthenticated())) {
+      return <div className="text-5xl font-bold text-center">"Welcome to your profile!"</div>;
+    }
+    
+    else{
+       redirect("/api/auth/login");
+    }
+ 
 };
 
 export default Home;
